@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import * as cors from "cors";
+const cors = require("cors");
 import {
   getAtsReportHandler,
   getInterviewQuestionsHandler,

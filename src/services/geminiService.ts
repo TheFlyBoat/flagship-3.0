@@ -9,7 +9,7 @@ import { executeLocalGeminiCall } from './localGeminiCall';
 // 2. In your function, use the @google/genai SDK to call the Gemini API.
 //    Store your API key securely in Firebase's environment variables.
 // 3. Replace the placeholder URL below with your actual Cloud Function URL.
-const GEMINI_PROXY_URL = 'https://us-central1-your-project-id.cloudfunctions.net/geminiApiProxy'; // <-- REPLACE THIS
+const GEMINI_PROXY_URL = 'https://us-central1-flagship-v3.cloudfunctions.net/geminiApiProxy';
 
 /**
  * A helper function to call the backend proxy or execute locally if in dev mode.

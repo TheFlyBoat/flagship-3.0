@@ -12,13 +12,18 @@ interface OnboardingTourProps {
 const TOUR_STEPS = [
   {
     icon: <Logo className="h-12 w-12 text-primary" />,
-    title: 'Welcome to FlagShip 2.0!',
-    description: 'Your all-in-one career toolkit. This quick tour will show you how to navigate the key features to land your next job.',
+    title: 'Welcome to FlagShip 3.0!',
+    description: 'Your multimodal, AI-powered career assistant. This quick tour will show you the brand new V3 features designed to help you land your next job.',
   },
   {
     icon: ICONS.ATS,
     title: AppView.ATS,
-    description: 'Optimize your CV for any job. Paste your resume and a job description to get a detailed fit-score, keyword analysis, and suggestions for improvement.',
+    description: 'Optimize your CV instantly. You can now automatically extract Job Descriptions by securely pasting a URL or by directly uploading an image/screenshot of the job posting!',
+  },
+  {
+    icon: ICONS.Discovery,
+    title: AppView.Explore,
+    description: 'Discover your hidden potential. Paste your CV and AI will instantly generate unexpected but highly-aligned career paths, allowing you to instantly teleport into practice mock interviews.',
   },
   {
     icon: ICONS.Portfolio,
@@ -28,12 +33,12 @@ const TOUR_STEPS = [
   {
     icon: ICONS.Tracker,
     title: AppView.Tracker,
-    description: 'Manage your job search with a visual Kanban board. Track applications from "Applied" to "Offer" and analyze your performance with the dashboard.',
+    description: 'Manage your job search with a visual Kanban board. Now featuring pure CSV local state import/export so you can freely manage your applications in Excel/Sheets.',
   },
   {
     icon: ICONS.Interview,
     title: AppView.Interview,
-    description: 'Ace your next interview. Practice with AI-generated questions tailored to your target role and receive instant, constructive feedback on your answers.',
+    description: 'Ace your next interview. Practice realistic mock roleplays. The AI will dynamically stress-test your skills with logical follow-up questions tailored natively to your previous responses.',
   },
 ];
 
@@ -75,9 +80,8 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ isOpen, onClose }) => {
           {TOUR_STEPS.map((_, index) => (
             <div
               key={index}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                index === currentStep ? 'bg-primary' : 'bg-border'
-              }`}
+              className={`h-2 w-2 rounded-full transition-colors ${index === currentStep ? 'bg-primary' : 'bg-border'
+                }`}
             />
           ))}
         </div>

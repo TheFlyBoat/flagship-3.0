@@ -2,7 +2,8 @@ import * as functions from "firebase-functions";
 import { GoogleGenAI } from "@google/genai";
 
 // Initialize the Gemini AI Client with the API key from environment config
-const ai = new GoogleGenAI({ apiKey: functions.config().gemini?.key || 'fallback-key' });
+const apiKey = process.env.GEMINI_API_KEY || 'fallback-key';
+const ai = new GoogleGenAI({ apiKey: apiKey });
 
 /**
  * A helper function to call the Gemini API and handle structured responses.
