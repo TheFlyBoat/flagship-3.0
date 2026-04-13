@@ -3,6 +3,7 @@ export enum AppView {
   Portfolio = 'Portfolio Reviewer',
   Tracker = 'Application Tracker',
   Interview = 'AI Interview Coach',
+  Explore = 'Role Discovery'
 }
 
 export interface RadarChartData {
@@ -61,13 +62,26 @@ export interface InterviewFeedback {
   starMethodCheck?: StarMethodCheck;
   nonCodingAiFeedbackCheck?: NonCodingAiFeedbackCheck;
   overallScore: number;
+  followUpQuestion?: string;
 }
 
 export enum ApplicationStatus {
   Applied = 'Applied',
   Interview = 'Interview',
   Offer = 'Offer',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
+}
+
+export interface RoleRecommendation {
+  roleTitle: string;
+  matchPercentage: number;
+  whyItFits: string;
+  potentialGaps: string;
+  salaryRangeEntry: string;
+}
+
+export interface CareerExplorerResponse {
+  recommendations: RoleRecommendation[];
 }
 
 export interface Application {

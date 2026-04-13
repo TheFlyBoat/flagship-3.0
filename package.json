@@ -9,15 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.15.0",
+    "@types/diff": "^7.0.2",
+    "cors": "^2.8.5",
+    "diff": "^9.0.0",
+    "firebase-functions": "^6.4.0",
+    "jspdf": "^2.5.1",
+    "mammoth": "1.8.0",
+    "pdfjs-dist": "4.5.136",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "@google/genai": "^1.15.0",
-    "recharts": "^3.1.2",
-    "jspdf": "^2.5.1",
-    "pdfjs-dist": "4.5.136",
-    "mammoth": "1.8.0",
-    "firebase-functions": "^6.4.0",
-    "cors": "^2.8.5"
+    "recharts": "^3.1.2"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

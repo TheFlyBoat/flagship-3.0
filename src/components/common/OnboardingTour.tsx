@@ -93,14 +93,14 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ isOpen, onClose }) => {
             {currentStep > 0 && (
               <button
                 onClick={handlePrev}
-                className="px-4 py-2 bg-surface text-text-primary font-semibold rounded-lg border border-border hover:bg-background"
+                className="px-4 py-2 bg-surface text-text-primary font-semibold rounded-2xl border border-border hover:bg-background"
               >
                 Previous
               </button>
             )}
             <button
               onClick={handleNext}
-              className="px-6 py-2 bg-primary text-white font-semibold rounded-lg shadow-md hover:opacity-90"
+              className="px-6 py-2 bg-primary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
             >
               {currentStep === TOUR_STEPS.length - 1 ? 'Finish' : 'Next'}
             </button>

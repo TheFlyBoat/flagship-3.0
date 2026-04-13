@@ -12,7 +12,7 @@ interface FeedbackDisplayProps {
 
 const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
     const StarCheck: React.FC<{ label: string, checked: boolean }> = ({ label, checked }) => (
-        <div className={`flex items-center space-x-2 p-2 rounded-lg ${checked ? 'bg-success-bg' : 'bg-danger-bg'}`}>
+        <div className={`flex items-center space-x-2 p-2 rounded-2xl ${checked ? 'bg-success-bg' : 'bg-danger-bg'}`}>
             {checked ? ICONS.Check : ICONS.Cross}
             <span className={`text-sm font-medium ${checked ? 'text-success-text' : 'text-danger-text'}`}>{label}</span>
         </div>
@@ -48,9 +48,9 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
                     <p className="text-sm mt-2 text-text-secondary">{feedback.starMethodCheck.feedback}</p>
                 </div>
             )}
-            
+
             {feedback.nonCodingAiFeedbackCheck && (
-                 <div>
+                <div>
                     <h5 className="font-semibold text-primary mb-2">Non-Coding AI Role Analysis</h5>
                     <div className="space-y-2 text-sm">
                         <p><strong className="text-text-primary">Conceptual Clarity:</strong> {feedback.nonCodingAiFeedbackCheck.conceptualClarity}</p>
@@ -60,7 +60,7 @@ const FeedbackDisplay: React.FC<FeedbackDisplayProps> = ({ feedback }) => {
                 </div>
             )}
 
-             <div>
+            <div>
                 <h5 className="font-semibold text-text-secondary">Overall Score: <span className="text-xl text-secondary">{feedback.overallScore}/10</span></h5>
             </div>
         </div>
@@ -164,19 +164,30 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
         if (!currentAnswer) return;
         setIsLoading(true);
 
-        const updatedQuestions = questions.map((q, index) => 
+        const updatedQuestions = questions.map((q, index) =>
             index === currentQuestionIndex ? { ...q, answer: currentAnswer } : q
         );
         setQuestions(updatedQuestions);
 
         try {
             const feedback = await getInterviewFeedback(questions[currentQuestionIndex].question, currentAnswer, isNonCodingAiMode);
-            const questionsWithFeedback = updatedQuestions.map((q, index) => 
+            const questionsWithFeedback = updatedQuestions.map((q, index) =>
                 index === currentQuestionIndex ? { ...q, feedback } : q
             );
-            setQuestions(questionsWithFeedback);
 
-            if (currentQuestionIndex < questions.length - 1) {
+            let newQuestionsList = [...questionsWithFeedback];
+            // If the AI asks a follow up question, dynamically insert it!
+            if (feedback.followUpQuestion && feedback.followUpQuestion.trim() !== '') {
+                newQuestionsList.splice(currentQuestionIndex + 1, 0, {
+                    question: feedback.followUpQuestion,
+                    answer: '',
+                    feedback: null
+                });
+            }
+
+            setQuestions(newQuestionsList);
+
+            if (currentQuestionIndex < newQuestionsList.length - 1) {
                 setCurrentQuestionIndex(prev => prev + 1);
                 setCurrentAnswer('');
             } else {
@@ -188,7 +199,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
             setIsLoading(false);
         }
     }, [currentAnswer, currentQuestionIndex, questions, isNonCodingAiMode]);
-    
+
     const resetInterview = () => {
         setRole('');
         setQuestions([]);
@@ -230,7 +241,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
 
         doc.save(filename);
     };
-    
+
     const formatInterviewFeedbackForPdf = (): string => {
         let content = `Interview Feedback for: ${role}\n\n`;
         content += "========================================\n\n";
@@ -238,7 +249,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
         questions.forEach((q, index) => {
             content += `Question ${index + 1}: ${q.question}\n\n`;
             content += `Your Answer:\n${q.answer}\n\n`;
-            
+
             if (q.feedback) {
                 content += `--- Feedback ---\n`;
                 content += `Overall Score: ${q.feedback.overallScore}/10\n\n`;
@@ -259,7 +270,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                     content += `  Result: ${q.feedback.starMethodCheck.result ? 'Clearly described' : 'Not clearly described'}\n`;
                     content += `  Feedback: ${q.feedback.starMethodCheck.feedback}\n\n`;
                 }
-                
+
                 if (q.feedback.nonCodingAiFeedbackCheck) {
                     content += `Non-Coding AI Role Analysis:\n`;
                     content += `  Conceptual Clarity: ${q.feedback.nonCodingAiFeedbackCheck.conceptualClarity}\n`;
@@ -278,17 +289,17 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
     if (isLoading && interviewState === 'setup') {
         return <Card><Spinner message="Preparing your interview..." /></Card>;
     }
-    
+
     if (interviewState === 'setup') {
         return (
             <Card className="max-w-xl mx-auto">
                 <h2 className="text-2xl font-bold text-text-primary mb-4">AI Interview Coach</h2>
                 <p className="text-text-secondary mb-6">Enter a job role to start a mock interview. You'll answer 5 common questions and receive instant feedback.</p>
                 <div className="space-y-4">
-                     {hasSavedSession && (
+                    {hasSavedSession && (
                         <button
                             onClick={resumeInterview}
-                            className="w-full px-6 py-3 bg-secondary text-white font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
+                            className="w-full px-6 py-3 bg-secondary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
                         >
                             Resume Interview
                         </button>
@@ -298,7 +309,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                         value={role}
                         onChange={(e) => setRole(e.target.value)}
                         placeholder="e.g., Senior React Developer"
-                        className="w-full p-3 bg-background border border-border rounded-md text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
+                        className="w-full p-3 bg-background border border-border rounded-xl text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
                     />
                     <div className="flex items-center space-x-3">
                         <input
@@ -313,11 +324,11 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                         </label>
                     </div>
 
-                     {error && <p className="text-danger text-sm">{error}</p>}
+                    {error && <p className="text-danger text-sm">{error}</p>}
                     <button
                         onClick={startInterview}
                         disabled={!role}
-                        className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {hasSavedSession ? 'Start New' : 'Start'}
                     </button>
@@ -325,22 +336,22 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
             </Card>
         );
     }
-    
+
     if (interviewState === 'in_progress') {
         return (
             <Card>
                 <h2 className="text-xl font-bold text-text-primary mb-2">Interview for: <span className="text-primary">{role}</span></h2>
                 <p className="text-text-secondary mb-6">Question {currentQuestionIndex + 1} of {questions.length}</p>
 
-                <div className="bg-background p-4 rounded-lg mb-4">
+                <div className="bg-background p-4 rounded-2xl mb-4">
                     <p className="text-lg text-text-primary">{questions[currentQuestionIndex].question}</p>
                 </div>
-                
+
                 <textarea
                     value={currentAnswer}
                     onChange={(e) => setCurrentAnswer(e.target.value)}
                     placeholder="Type your answer here..."
-                    className="w-full h-40 p-3 bg-background border border-border rounded-md text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
+                    className="w-full h-40 p-3 bg-background border border-border rounded-xl text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
                     disabled={isLoading}
                 />
 
@@ -348,16 +359,16 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                     <button
                         onClick={submitAnswer}
                         disabled={isLoading || !currentAnswer}
-                        className="px-6 py-2 bg-secondary text-white font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary disabled:opacity-50"
+                        className="px-6 py-2 bg-secondary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary disabled:opacity-50"
                     >
                         {isLoading ? 'Getting Feedback...' : 'Submit Answer'}
                     </button>
                 </div>
-                 {error && <p className="text-danger text-sm mt-2">{error}</p>}
+                {error && <p className="text-danger text-sm mt-2">{error}</p>}
             </Card>
         );
     }
-    
+
     if (interviewState === 'finished') {
         return (
             <Card>
@@ -365,17 +376,17 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                 <p className="text-text-secondary mb-6">Here is the feedback for your answers.</p>
                 <div className="space-y-6">
                     {questions.map((q, index) => (
-                        <div key={index} className="bg-surface p-4 rounded-lg border border-border">
-                             <p className="font-semibold text-text-secondary">Q: {q.question}</p>
-                             <p className="italic text-text-primary my-2 p-2 bg-background rounded">A: {q.answer}</p>
-                             {q.feedback && <FeedbackDisplay feedback={q.feedback} />}
+                        <div key={index} className="bg-surface p-4 rounded-2xl border border-border">
+                            <p className="font-semibold text-text-secondary">Q: {q.question}</p>
+                            <p className="italic text-text-primary my-2 p-2 bg-background rounded">A: {q.answer}</p>
+                            {q.feedback && <FeedbackDisplay feedback={q.feedback} />}
                         </div>
                     ))}
                 </div>
-                 <div className="mt-8 flex justify-center space-x-4">
+                <div className="mt-8 flex justify-center space-x-4">
                     <button
                         onClick={resetInterview}
-                        className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:opacity-90"
+                        className="px-6 py-3 bg-primary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
                     >
                         Start New
                     </button>
@@ -385,7 +396,7 @@ const InterviewCoach: React.FC<InterviewCoachProps> = ({ initialRole }) => {
                             const content = formatInterviewFeedbackForPdf();
                             handleDownloadPdf(content, filename);
                         }}
-                        className="px-6 py-3 bg-secondary text-white font-semibold rounded-lg shadow-md hover:opacity-90"
+                        className="px-6 py-3 bg-secondary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200"
                     >
                         Download Feedback PDF
                     </button>

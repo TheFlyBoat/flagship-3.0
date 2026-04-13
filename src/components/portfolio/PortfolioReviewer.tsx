@@ -73,7 +73,7 @@ const PortfolioReviewer: React.FC<PortfolioReviewerProps> = ({ initialJobDescrip
                             value={projectDescription}
                             onChange={(e) => setProjectDescription(e.target.value)}
                             placeholder="Describe the problem, your process, the technologies used, and the outcome..."
-                            className="w-full h-72 p-3 bg-background border border-border rounded-md text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
+                            className="w-full h-72 p-3 bg-background border border-border rounded-xl text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
                         />
                     </div>
                     <div>
@@ -83,7 +83,7 @@ const PortfolioReviewer: React.FC<PortfolioReviewerProps> = ({ initialJobDescrip
                             value={targetRole}
                             onChange={(e) => setTargetRole(e.target.value)}
                             placeholder="e.g., Senior Product Designer, or paste a full job description"
-                            className="w-full h-72 p-3 bg-background border border-border rounded-md text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
+                            className="w-full h-72 p-3 bg-background border border-border rounded-xl text-text-primary focus:ring-2 focus:ring-primary focus:border-primary"
                         />
                     </div>
                 </div>
@@ -91,7 +91,7 @@ const PortfolioReviewer: React.FC<PortfolioReviewerProps> = ({ initialJobDescrip
                     <button
                         onClick={handleSubmit}
                         disabled={isLoading || !projectDescription || !targetRole}
-                        className="px-6 py-2 bg-primary text-white font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="px-6 py-2 bg-primary text-white font-semibold rounded-2xl shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         {isLoading ? 'Analyzing Project...' : 'Feedback'}
                     </button>

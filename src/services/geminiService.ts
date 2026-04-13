@@ -1,5 +1,7 @@
 import type { ATSReport, InterviewFeedback, ProjectIdea, PortfolioReviewReport } from '../types';
 
+import { executeLocalGeminiCall } from './localGeminiCall';
+
 // IMPORTANT: DEPLOYMENT INSTRUCTIONS
 // To securely hide your API key for Firebase deployment, you must proxy your Gemini API calls
 // through a backend service like Firebase Cloud Functions.
@@ -10,14 +12,24 @@ import type { ATSReport, InterviewFeedback, ProjectIdea, PortfolioReviewReport }
 const GEMINI_PROXY_URL = 'https://us-central1-your-project-id.cloudfunctions.net/geminiApiProxy'; // <-- REPLACE THIS
 
 /**
- * A helper function to call the backend proxy.
+ * A helper function to call the backend proxy or execute locally if in dev mode.
  * @param endpoint - The specific API endpoint to hit on the proxy (e.g., 'getAtsReport').
  * @param body - The data to send in the request body.
- * @returns The JSON response from the proxy.
+ * @returns The JSON response from the proxy/local client.
  */
 const callGeminiProxy = async (endpoint: string, body: object): Promise<any> => {
+    // Local dev override: If we have an API key locally via Vite, run the AI call inside the browser directly.
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'undefined') {
+        try {
+            return await executeLocalGeminiCall(endpoint, body);
+        } catch (error) {
+            console.error(`Error executing local Gemini call for ${endpoint}:`, error);
+            throw error;
+        }
+    }
+
     if (GEMINI_PROXY_URL.includes('your-project-id')) {
-        throw new Error("Please update the `GEMINI_PROXY_URL` in `services/geminiService.ts` with your actual Firebase Function URL.");
+        throw new Error("Local GEMINI_API_KEY not found in .env.local, and GEMINI_PROXY_URL is not set to a valid Firebase URL. Please set your local key or deploy the proxy.");
     }
 
     try {
@@ -73,6 +85,36 @@ export const generatePitch = async (cv: string, jobDescription: string, report: 
     return response.pitch;
 };
 
-export const getPortfolioReview = async (projectDescription: string, targetRole: string): Promise<PortfolioReviewReport> => {
+export async function getPortfolioReview(projectDescription: string, targetRole: string) {
     return callGeminiProxy('getPortfolioReview', { projectDescription, targetRole });
+}
+
+export async function exploreCareers(skills: string, cvText?: string): Promise<any> {
+    return callGeminiProxy('exploreCareers', { skills, cvText });
+}
+
+export async function extractTextFromImage(base64Data: string, mimeType: string): Promise<string> {
+    const res = await callGeminiProxy('extractTextFromImage', { base64Data, mimeType });
+    return res.text;
+};
+
+/**
+ * Streams the rewritten CV back block by block. Only supported on local dev directly right now.
+ * Real production would require an SSE endpoint.
+ */
+export const generateOptimizedCvStream = async function* (cv: string, jobDescription: string, report: ATSReport): AsyncGenerator<string, void, unknown> {
+    const aiClient = process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'undefined'
+        ? await import('./localGeminiCall').then(m => m)
+        : null;
+
+    if (aiClient && aiClient.executeLocalGeminiStream) {
+        const stream = await aiClient.executeLocalGeminiStream('generateOptimizedCvStream', { cv, jobDescription, report });
+        for await (const chunk of stream) {
+            yield chunk;
+        }
+    } else {
+        // Fallback to non-streaming proxy if streaming isn't natively deployed
+        const response = await generateOptimizedCv(cv, jobDescription, report);
+        yield response;
+    }
 };

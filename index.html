@@ -1,114 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FlagShip - Career Toolkit</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      :root {
-        /* Light Theme */
-        --color-primary: #f97316; /* Orange 500 */
-        --color-secondary: #14b8a6; /* Teal 500 */
-        --color-background: #f3f4f6; /* Gray 100 */
-        --color-surface: #ffffff; /* White */
-        --color-text-primary: #111827; /* Gray 900 */
-        --color-text-secondary: #6b7281; /* Gray 500 */
-        --color-border: #e5e7eb; /* Gray 200 */
 
-        --color-success: #059669; /* Green 600 */
-        --color-danger: #dc2626; /* Red 600 */
-        --color-warning: #f59e0b; /* Amber 500 */
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlagShip - Career Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      /* Light Theme */
+      --color-primary: #f97316;
+      /* Orange 500 */
+      --color-secondary: #14b8a6;
+      /* Teal 500 */
+      --color-background: #f3f4f6;
+      /* Gray 100 */
+      --color-surface: #ffffff;
+      /* White */
+      --color-text-primary: #111827;
+      /* Gray 900 */
+      --color-text-secondary: #6b7281;
+      /* Gray 500 */
+      --color-border: #e5e7eb;
+      /* Gray 200 */
 
-        --color-success-bg: #d1fae5; /* Green 100 */
-        --color-success-text: #065f46; /* Green 800 */
-        --color-danger-bg: #fee2e2; /* Red 100 */
-        --color-danger-text: #991b1b; /* Red 800 */
-        
-        --color-primary-bg: #ffedd5; /* Orange 100 */
-        --color-primary-text: #9a3412; /* Orange 800 */
-        
-        --color-tooltip-bg: #ffffff;
-        --color-tooltip-border: #e5e7eb;
-      }
+      --color-success: #059669;
+      /* Green 600 */
+      --color-danger: #dc2626;
+      /* Red 600 */
+      --color-warning: #f59e0b;
+      /* Amber 500 */
 
-      .dark {
-        /* Dark Theme */
-        --color-primary: #4f46e5; /* Indigo 600 */
-        --color-secondary: #10b981; /* Emerald 500 */
-        --color-background: #111827; /* Gray 900 */
-        --color-surface: #1f2937; /* Gray 800 */
-        --color-text-primary: #f9fafb; /* Gray 50 */
-        --color-text-secondary: #d1d5db; /* Gray 300 */
-        --color-border: #374151; /* Gray 700 */
+      --color-success-bg: #d1fae5;
+      /* Green 100 */
+      --color-success-text: #065f46;
+      /* Green 800 */
+      --color-danger-bg: #fee2e2;
+      /* Red 100 */
+      --color-danger-text: #991b1b;
+      /* Red 800 */
 
-        --color-success: #34d399; /* Green 400 */
-        --color-danger: #f87171; /* Red 400 */
-        --color-warning: #fbbf24; /* Amber 400 */
+      --color-primary-bg: #ffedd5;
+      /* Orange 100 */
+      --color-primary-text: #9a3412;
+      /* Orange 800 */
 
-        --color-success-bg: #10B98120; /* Emerald 500 with alpha */
-        --color-success-text: #a7f3d0; /* Emerald 200 */
-        --color-danger-bg: #F8717120; /* Red 400 with alpha */
-        --color-danger-text: #fecaca; /* Red 200 */
-        
-        --color-primary-bg: #4F46E520; /* Indigo 600 with alpha */
-        --color-primary-text: #c7d2fe; /* Indigo 200 */
+      --color-tooltip-bg: #ffffff;
+      --color-tooltip-border: #e5e7eb;
+    }
 
-        --color-tooltip-bg: #1f2937;
-        --color-tooltip-border: #374151;
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              logo: ['"Exo 2"', 'sans-serif'],
+    .dark {
+      /* Dark Theme */
+      --color-primary: #f97316;
+      /* Orange 500 (Matches light mode for brand consistency) */
+      --color-secondary: #0d9488;
+      /* Teal 600 */
+      --color-background: #111827;
+      /* Gray 900 */
+      --color-surface: #1f2937;
+      /* Gray 800 */
+      --color-text-primary: #f9fafb;
+      /* Gray 50 */
+      --color-text-secondary: #d1d5db;
+      /* Gray 300 */
+      --color-border: #374151;
+      /* Gray 700 */
+
+      --color-success: #34d399;
+      /* Green 400 */
+      --color-danger: #f87171;
+      /* Red 400 */
+      --color-warning: #fbbf24;
+      /* Amber 400 */
+
+      --color-success-bg: #10B98120;
+      /* Emerald 500 with alpha */
+      --color-success-text: #a7f3d0;
+      /* Emerald 200 */
+      --color-danger-bg: #F8717120;
+      /* Red 400 with alpha */
+      --color-danger-text: #fecaca;
+      /* Red 200 */
+
+      --color-primary-bg: #f9731620;
+      /* Orange 500 with alpha */
+      --color-primary-text: #fdba74;
+      /* Orange 300 */
+
+      --color-tooltip-bg: #1f2937;
+      --color-tooltip-border: #374151;
+    }
+
+    /* Global resets for forms to fix placeholder contrast */
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            logo: ['"Exo 2"', 'sans-serif'],
+          },
+          colors: {
+            'primary': 'var(--color-primary)',
+            'secondary': 'var(--color-secondary)',
+            'background': 'var(--color-background)',
+            'surface': 'var(--color-surface)',
+            'text-primary': 'var(--color-text-primary)',
+            'text-secondary': 'var(--color-text-secondary)',
+            'border': 'var(--color-border)',
+            'success': 'var(--color-success)',
+            'danger': 'var(--color-danger)',
+            'warning': 'var(--color-warning)',
+            'success-bg': 'var(--color-success-bg)',
+            'success-text': 'var(--color-success-text)',
+            'danger-bg': 'var(--color-danger-bg)',
+            'danger-text': 'var(--color-danger-text)',
+            'primary-bg': 'var(--color-primary-bg)',
+            'primary-text': 'var(--color-primary-text)',
+            'tooltip-bg': 'var(--color-tooltip-bg)',
+            'tooltip-border': 'var(--color-tooltip-border)',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
             },
-            colors: {
-              'primary': 'var(--color-primary)',
-              'secondary': 'var(--color-secondary)',
-              'background': 'var(--color-background)',
-              'surface': 'var(--color-surface)',
-              'text-primary': 'var(--color-text-primary)',
-              'text-secondary': 'var(--color-text-secondary)',
-              'border': 'var(--color-border)',
-              'success': 'var(--color-success)',
-              'danger': 'var(--color-danger)',
-              'warning': 'var(--color-warning)',
-              'success-bg': 'var(--color-success-bg)',
-              'success-text': 'var(--color-success-text)',
-              'danger-bg': 'var(--color-danger-bg)',
-              'danger-text': 'var(--color-danger-text)',
-              'primary-bg': 'var(--color-primary-bg)',
-              'primary-text': 'var(--color-primary-text)',
-              'tooltip-bg': 'var(--color-tooltip-bg)',
-              'tooltip-border': 'var(--color-tooltip-border)',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-15px)' },
-              }
-            },
-            animation: {
-              fadeIn: 'fadeIn 0.5s ease-in-out',
-              float: 'float 4s ease-in-out infinite',
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-15px)' },
             }
+          },
+          animation: {
+            fadeIn: 'fadeIn 0.5s ease-in-out',
+            float: 'float 4s ease-in-out infinite',
           }
         }
       }
-    </script>
+    }
+  </script>
   <script type="importmap">
 {
   "imports": {
@@ -125,10 +166,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-background font-sans">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+
+<body class="bg-background font-sans">
+  <div id="root"></div>
+  <script type="module" src="/src/index.tsx"></script>
+</body>
+
 </html>

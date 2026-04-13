@@ -5,6 +5,7 @@ import ATSOptimiser from './components/ats/ATSOptimiser';
 import InterviewCoach from './components/interview/InterviewCoach';
 import ApplicationTracker from './components/tracker/ApplicationTracker';
 import PortfolioReviewer from './components/portfolio/PortfolioReviewer';
+import CareerExplorer from './components/explorer/CareerExplorer';
 import SplashScreen from './components/common/SplashScreen';
 import Logo from './components/common/Logo';
 import ThemeToggle from './components/common/ThemeToggle';
@@ -18,11 +19,11 @@ const App: React.FC = () => {
     const [practiceRole, setPracticeRole] = useState<string>('');
     const [jobDescriptionForPortfolio, setJobDescriptionForPortfolio] = useState<string>('');
     const [showOnboarding, setShowOnboarding] = useState(false);
-    
+
     const [userCv, setUserCv] = useState<string>(() => {
         try {
             return sessionStorage.getItem('userCv') || '';
-// FIX: Added curly braces to the catch block to fix a syntax error that caused cascading 'Cannot find name' errors.
+            // FIX: Added curly braces to the catch block to fix a syntax error that caused cascading 'Cannot find name' errors.
         } catch (error) {
             return '';
         }
@@ -48,7 +49,7 @@ const App: React.FC = () => {
             setApplications([]);
         }
     }, []);
-    
+
     useEffect(() => {
         try {
             const hasCompletedOnboarding = localStorage.getItem('onboardingComplete');
@@ -137,6 +138,8 @@ const App: React.FC = () => {
                 return <ApplicationTracker theme={theme} applications={applications} setApplications={setApplications} onPracticeInterview={handlePracticeInterview} />;
             case AppView.Portfolio:
                 return <PortfolioReviewer initialJobDescription={jobDescriptionForPortfolio} />;
+            case AppView.Explore:
+                return <CareerExplorer initialCv={userCv} onPracticeRole={handlePracticeInterview} />;
             default:
                 return <ATSOptimiser theme={theme} onAddApplication={handleAddApplicationFromATS} onJobDescriptionSubmit={setJobDescriptionForPortfolio} cvContent={userCv} onCvChange={setUserCv} />;
         }
@@ -145,11 +148,10 @@ const App: React.FC = () => {
     const NavItem: React.FC<{ view: AppView; icon: React.ReactNode }> = ({ view, icon }) => (
         <button
             onClick={() => handleNavClick(view)}
-            className={`flex flex-col md:flex-row items-center justify-center md:justify-start md:space-x-3 p-2 md:px-4 md:py-3 rounded-lg transition-colors duration-200 w-full text-center md:text-left ${
-                activeView === view
+            className={`flex flex-col md:flex-row items-center justify-center md:justify-start md:space-x-3 p-2 md:px-4 md:py-3 rounded-lg transition-colors duration-200 w-full text-center md:text-left ${activeView === view
                     ? 'bg-primary text-white shadow-lg'
                     : 'text-text-secondary hover:bg-background hover:text-text-primary'
-            }`}
+                }`}
         >
             {icon}
             <span className="font-semibold text-xs md:text-base mt-1 md:mt-0">{view}</span>
@@ -163,11 +165,12 @@ const App: React.FC = () => {
                 {/* Sidebar */}
                 <aside className="w-full md:w-64 bg-surface p-2 md:p-4 md:h-screen border-b md:border-b-0 md:border-r border-border flex flex-col md:fixed">
                     <div className="hidden md:flex items-center space-x-2 mb-8 p-2">
-                         <Logo className="h-8 w-8 text-primary" />
+                        <Logo className="h-8 w-8 text-primary" />
                         <h1 className="text-2xl font-bold text-text-primary font-logo tracking-wide">FlagShip</h1>
                     </div>
                     <nav className="flex flex-row md:flex-col justify-around md:justify-start md:space-y-2 flex-grow">
                         <NavItem view={AppView.ATS} icon={ICONS.ATS} />
+                        <NavItem view={AppView.Explore} icon={ICONS.Discovery} />
                         <NavItem view={AppView.Portfolio} icon={ICONS.Portfolio} />
                         <NavItem view={AppView.Tracker} icon={ICONS.Tracker} />
                         <NavItem view={AppView.Interview} icon={ICONS.Interview} />
@@ -178,7 +181,7 @@ const App: React.FC = () => {
                 <main className="flex-1 p-4 sm:p-6 lg:p-8 md:ml-64">
                     <header className="mb-8 flex justify-between items-center">
                         <div className="md:hidden flex items-center space-x-2">
-                             <Logo className="h-8 w-8 text-primary" />
+                            <Logo className="h-8 w-8 text-primary" />
                             <h1 className="text-2xl font-bold text-text-primary font-logo tracking-wide">FlagShip</h1>
                         </div>
                     </header>
@@ -188,7 +191,7 @@ const App: React.FC = () => {
             <footer className="text-center p-4 text-text-secondary text-sm border-t border-border bg-surface md:ml-64">
                 © 2025 FlyBoat | FlagShip 2.0
             </footer>
-             <div className="fixed bottom-6 right-6 z-50">
+            <div className="fixed bottom-6 right-6 z-50">
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </div>
         </div>
